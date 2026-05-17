@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BinaryAbyssStudios</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--black:#000;--white:#fff;--grey-dark:#0a0a0a;--grey-mid:#111;--grey-light:#1a1a1a;--grey-text:#888;--grey-dim:#333;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    ::selection{background:#fff;color:#000;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
+    .cursor{position:fixed;width:12px;height:12px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference;}
+    .cursor-ring{position:fixed;width:40px;height:40px;border:1px solid rgba(255,255,255,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.4;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(0,0,0,.9),transparent);}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:#fff;text-decoration:none;}
+    .nav-links{display:flex;gap:40px;list-style:none;}
+    .nav-links a{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--grey-text);text-decoration:none;text-transform:uppercase;transition:color .3s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:#fff;transition:width .3s;}
+    .nav-links a:hover{color:#fff;}.nav-links a:hover::after{width:100%;}
+    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 80px;position:relative;overflow:hidden;}
+    .hero-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,18vw,280px);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.05);white-space:nowrap;pointer-events:none;user-select:none;animation:driftBg 20s ease-in-out infinite alternate;}
+    @keyframes driftBg{0%{transform:translate(-50%,-50%) scale(1);}100%{transform:translate(-48%,-52%) scale(1.04);}}
+    .scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;}
+    .glitch-line{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.12);animation:glitchLine 8s linear infinite;}
+    @keyframes glitchLine{0%{top:0%;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{top:100%;opacity:0;}}
+    .hero-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--grey-text);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp .8s ease forwards .3s;}
+    .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,10vw,140px);line-height:.9;letter-spacing:2px;margin-bottom:32px;opacity:0;animation:fadeUp .8s ease forwards .5s;}
+    .hero-title span{display:block;color:transparent;-webkit-text-stroke:1px #fff;}
+    .hero-desc{max-width:480px;font-size:15px;line-height:1.7;color:var(--grey-text);margin-bottom:48px;opacity:0;animation:fadeUp .8s ease forwards .7s;}
+    .hero-cta{display:flex;gap:20px;opacity:0;animation:fadeUp .8s ease forwards .9s;}
+    .btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;text-decoration:none;transition:all .3s;display:inline-block;}
+    .btn-primary{background:#fff;color:#000;border:1px solid #fff;}.btn-primary:hover{background:transparent;color:#fff;}
+    .btn-secondary{background:transparent;color:var(--grey-text);border:1px solid var(--grey-dim);}.btn-secondary:hover{border-color:#fff;color:#fff;}
+    .scroll-indicator{position:absolute;right:48px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fadeIn 1s ease forwards 1.5s;}
+    .scroll-indicator span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--grey-text);writing-mode:vertical-rl;text-transform:uppercase;}
+    .scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,#fff,transparent);animation:scrollPulse 2s ease-in-out infinite;}
+    @keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    .marquee-wrapper{overflow:hidden;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:16px 0;background:var(--grey-mid);}
+    .marquee-track{display:flex;gap:48px;animation:marquee 22s linear infinite;white-space:nowrap;}
+    .marquee-track span{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:4px;color:var(--grey-dim);text-transform:uppercase;flex-shrink:0;}
+    @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    section{padding:120px 48px;}
+    .section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--grey-text);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:16px;}
+    .section-label::before{content:'';display:block;width:32px;height:1px;background:var(--grey-dim);}
+    .section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,90px);line-height:1;letter-spacing:1px;margin-bottom:64px;}
+    #about{border-top:1px solid var(--grey-light);}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+    .about-text p{font-size:16px;line-height:1.8;color:var(--grey-text);margin-bottom:20px;}
+    .about-text p strong{color:#fff;font-weight:500;}
+    .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+    .stat-box{border:1px solid var(--grey-light);padding:32px 24px;position:relative;overflow:hidden;transition:border-color .3s;}
+    .stat-box::before{content:'';position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .4s ease;z-index:0;}
+    .stat-box:hover{border-color:#fff;}.stat-box:hover::before{transform:scaleX(1);}
+    .stat-box:hover .stat-num,.stat-box:hover .stat-label{color:#000;}
+    .stat-num{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:#fff;display:block;position:relative;z-index:1;transition:color .4s;}
+    .stat-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--grey-text);text-transform:uppercase;margin-top:8px;display:block;position:relative;z-index:1;transition:color .4s;}
+    #projects{background:var(--grey-dark);border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2px;background:var(--grey-light);}
+    .project-card{background:var(--grey-dark);padding:40px;position:relative;overflow:hidden;transition:background .4s;text-decoration:none;color:inherit;display:block;}
+    .project-card::after{content:'';position:absolute;inset:0;background:#fff;transform:translateY(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);z-index:0;}
+    .project-card:hover::after{transform:translateY(0);}
+    .project-card:hover .card-num,.project-card:hover .card-title,.project-card:hover .card-desc,.project-card:hover .card-tags span,.project-card:hover .card-arrow,.project-card:hover .card-badge,.project-card:hover .platform-pill{color:#000;border-color:rgba(0,0,0,.2);background:rgba(0,0,0,.06);}
+    .card-badge{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;background:rgba(255,255,255,.07);border:1px solid var(--grey-dim);color:var(--grey-text);padding:4px 10px;display:inline-block;margin-bottom:20px;position:relative;z-index:1;transition:color .4s,border-color .4s,background .4s;}
+    .card-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--grey-dim);letter-spacing:2px;margin-bottom:24px;display:block;position:relative;z-index:1;transition:color .4s;}
+    .card-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;line-height:1.1;margin-bottom:16px;position:relative;z-index:1;transition:color .4s;}
+    .platforms{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;position:relative;z-index:1;}
+    .platform-pill{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:4px 10px;border:1px solid var(--grey-dim);color:var(--grey-text);text-transform:uppercase;transition:color .4s,border-color .4s,background .4s;}
+    .card-desc{font-size:13px;line-height:1.7;color:var(--grey-text);margin-bottom:32px;position:relative;z-index:1;transition:color .4s;}
+    .card-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;position:relative;z-index:1;}
+    .card-tags span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--grey-dim);color:var(--grey-text);padding:4px 10px;transition:color .4s,border-color .4s;}
+    .card-arrow{font-size:22px;color:var(--grey-text);position:relative;z-index:1;transition:color .4s,transform .3s;display:inline-block;}
+    .project-card:hover .card-arrow{transform:translate(4px,-4px);}
+    .card-soon{opacity:.3;cursor:default;pointer-events:none;}
+    .card-soon::after{display:none;}
+    #upload{border-top:1px solid var(--grey-light);}
+    .upload-intro{max-width:600px;font-size:16px;line-height:1.8;color:var(--grey-text);margin-bottom:64px;}
+    .steps{display:flex;flex-direction:column;border:1px solid var(--grey-light);max-width:800px;}
+    .step{display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--grey-light);transition:background .3s;}
+    .step:last-child{border-bottom:none;}.step:hover{background:var(--grey-mid);}
+    .step-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--grey-dim);padding:28px 24px;border-right:1px solid var(--grey-light);display:flex;align-items:center;justify-content:center;transition:color .3s;}
+    .step:hover .step-num{color:#fff;}
+    .step-content{padding:28px 32px;}
+    .step-content h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:8px;}
+    .step-content p{font-size:13px;line-height:1.7;color:var(--grey-text);}
+    .step-content code{font-family:'Space Mono',monospace;font-size:11px;background:var(--grey-light);padding:2px 8px;color:#ccc;border-radius:2px;}
+    #contact{border-top:1px solid var(--grey-light);text-align:center;padding:120px 48px 80px;}
+    .contact-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,120px);line-height:.9;margin-bottom:48px;}
+    .contact-big span{display:block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.3);}
+    .contact-links{display:flex;justify-content:center;gap:32px;margin-bottom:80px;}
+    .contact-links a{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--grey-text);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+    .contact-links a:hover{color:#fff;}
+    footer{border-top:1px solid var(--grey-light);padding:24px 48px;display:flex;justify-content:space-between;align-items:center;}
+    footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--grey-dim);text-transform:uppercase;}
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .reveal-delay-1{transition-delay:.1s;}.reveal-delay-2{transition-delay:.2s;}
+    @media(max-width:768px){nav{padding:20px 24px;}.nav-links{display:none;}section{padding:80px 24px;}#hero{padding:0 24px 60px;}.about-grid{grid-template-columns:1fr;gap:48px;}.projects-grid{grid-template-columns:1fr;}.step{grid-template-columns:60px 1fr;}footer{flex-direction:column;gap:12px;text-align:center;}.scroll-indicator{display:none;}}
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">BinaryAbyssStudios</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#upload">Deploy</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg-text">ABYSS</div>
+  <div class="scanlines"></div>
+  <div class="glitch-line"></div>
+  <p class="hero-tag">// Binary Abyss Studios — Scripts &amp; Tools</p>
+  <h1 class="hero-title">
+    CODE<br/>
+    <span>FROM THE</span>
+    VOID
+  </h1>
+  <p class="hero-desc">Open source tools, system utilities, and scripts built by BinaryAbyssStudios. No bloat. Just code that works.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="https://github.com/BinaryAbyssStudios" target="_blank" class="btn btn-secondary">GitHub ↗</a>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="marquee-wrapper">
+  <div class="marquee-track">
+    <span>QuickFix</span><span>·</span><span>Windows</span><span>·</span><span>Linux</span><span>·</span><span>macOS</span><span>·</span><span>Python</span><span>·</span><span>Open Source</span><span>·</span><span>System Tools</span><span>·</span><span>BinaryAbyssStudios</span><span>·</span>
+    <span>QuickFix</span><span>·</span><span>Windows</span><span>·</span><span>Linux</span><span>·</span><span>macOS</span><span>·</span><span>Python</span><span>·</span><span>Open Source</span><span>·</span><span>System Tools</span><span>·</span><span>BinaryAbyssStudios</span><span>·</span>
+  </div>
+</div>
+
+<section id="about">
+  <p class="section-label reveal">About</p>
+  <h2 class="section-title reveal">WHO WE ARE</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p><strong>BinaryAbyssStudios</strong> builds precision-made scripts, tools, and system utilities. Born from real problems, built to solve them fast.</p>
+      <p>Every project is open source and ready to run. No bloat, no fluff — just code that does exactly what it says.</p>
+      <p>From <strong>system repair tools</strong> to <strong>automation scripts</strong>, from <strong>CLI utilities</strong> to <strong>developer tools</strong> — there's something here for every machine.</p>
+    </div>
+    <div class="about-stats reveal reveal-delay-2">
+      <div class="stat-box"><span class="stat-num">1</span><span class="stat-label">Live Project</span></div>
+      <div class="stat-box"><span class="stat-num">3</span><span class="stat-label">Platforms</span></div>
+      <div class="stat-box"><span class="stat-num">100%</span><span class="stat-label">Open Source</span></div>
+      <div class="stat-box"><span class="stat-num">0</span><span class="stat-label">Bloat</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <p class="section-label reveal">Work</p>
+  <h2 class="section-title reveal">PROJECTS</h2>
+  <div class="projects-grid">
+
+    <!-- QUICKFIX — LIVE -->
+    <a class="project-card reveal" href="https://github.com/BinaryAbyssStudios/quickfix" target="_blank">
+      <span class="card-badge">● Live Project</span>
+      <span class="card-num">01 —</span>
+      <h3 class="card-title">QuickFix</h3>
+      <div class="platforms">
+        <span class="platform-pill">🪟 Windows</span>
+        <span class="platform-pill">🐧 Linux</span>
+        <span class="platform-pill">🍎 macOS</span>
+      </div>
+      <p class="card-desc">Cross-platform system diagnostic and repair tool. Detects issues, shows full system info, and runs targeted fixes — from DNS flush and temp cleanup all the way to SFC, DISM, disk repair, and broken package fixes. One Python script. Every OS.</p>
+      <div class="card-tags">
+        <span>Python</span><span>CLI</span><span>System</span><span>Repair</span><span>Cross-Platform</span>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+
+    <div class="project-card card-soon reveal reveal-delay-1">
+      <span class="card-num">02 —</span>
+      <h3 class="card-title">Coming Soon</h3>
+      <p class="card-desc">Next project in the works. Watch the GitHub.</p>
+      <div class="card-tags"><span>TBA</span></div>
+    </div>
+
+    <div class="project-card card-soon reveal reveal-delay-2">
+      <span class="card-num">03 —</span>
+      <h3 class="card-title">Coming Soon</h3>
+      <p class="card-desc">More tools dropping. Stay tuned.</p>
+      <div class="card-tags"><span>TBA</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="upload">
+  <p class="section-label reveal">Deploy Guide</p>
+  <h2 class="section-title reveal">HOW TO ADD<br/>A PROJECT</h2>
+  <p class="upload-intro reveal">Built something new? Here's exactly how to upload it to GitHub and update this site.</p>
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h3>Create a New Repo</h3>
+        <p>Go to <strong>github.com/BinaryAbyssStudios</strong> → New Repository. Name it after your tool (e.g. <code>quickfix</code>). Add a README describing what it does.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h3>Push Your Code</h3>
+        <p>In your project folder: <code>git init</code> → <code>git add .</code> → <code>git commit -m "init"</code> → <code>git remote add origin YOUR_REPO_URL</code> → <code>git push -u origin main</code></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h3>Update This Site</h3>
+        <p>Open <code>index.html</code> in your <code>BinaryAbyssStudios.github.io</code> repo. Copy the QuickFix <code>.project-card</code> block, paste it, update the number, title, description, tags, and GitHub link.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <h3>Push the Site Update</h3>
+        <p><code>git add .</code> → <code>git commit -m "add project: your-tool-name"</code> → <code>git push</code>. Site updates live within 60 seconds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <p class="section-label reveal" style="justify-content:center;">Contact</p>
+  <div class="contact-big reveal">FIND US<br/><span>ON GITHUB</span></div>
+  <div class="contact-links reveal">
+    <a href="https://github.com/BinaryAbyssStudios" target="_blank">GitHub ↗</a>
+    <a href="https://BinaryAbyssStudios.github.io" target="_blank">Website ↗</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 BinaryAbyssStudios</p>
+  <p>Built in the void. Deployed to the web.</p>
+</footer>
+
+<script>
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  (function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+  document.querySelectorAll('a,button,.stat-box,.step').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='60px';ring.style.height='60px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='12px';cursor.style.height='12px';ring.style.width='40px';ring.style.height='40px';});
+  });
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+  const htitle=document.querySelector('.hero-title');
+  const gf=['CODE','C0DE','C▓DE','CODE'];let gi=0;
+  setInterval(()=>{if(Math.random()>.85){htitle.childNodes[0].textContent=gf[gi%gf.length];gi++;setTimeout(()=>{htitle.childNodes[0].textContent='CODE';},100);}},1800);
+</script>
+</body>
+</html>
