@@ -77,17 +77,6 @@
     .project-card:hover .card-arrow{transform:translate(4px,-4px);}
     .card-soon{opacity:.3;cursor:default;pointer-events:none;}
     .card-soon::after{display:none;}
-    #upload{border-top:1px solid var(--grey-light);}
-    .upload-intro{max-width:600px;font-size:16px;line-height:1.8;color:var(--grey-text);margin-bottom:64px;}
-    .steps{display:flex;flex-direction:column;border:1px solid var(--grey-light);max-width:800px;}
-    .step{display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--grey-light);transition:background .3s;}
-    .step:last-child{border-bottom:none;}.step:hover{background:var(--grey-mid);}
-    .step-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--grey-dim);padding:28px 24px;border-right:1px solid var(--grey-light);display:flex;align-items:center;justify-content:center;transition:color .3s;}
-    .step:hover .step-num{color:#fff;}
-    .step-content{padding:28px 32px;}
-    .step-content h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:8px;}
-    .step-content p{font-size:13px;line-height:1.7;color:var(--grey-text);}
-    .step-content code{font-family:'Space Mono',monospace;font-size:11px;background:var(--grey-light);padding:2px 8px;color:#ccc;border-radius:2px;}
     #contact{border-top:1px solid var(--grey-light);text-align:center;padding:120px 48px 80px;}
     .contact-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,120px);line-height:.9;margin-bottom:48px;}
     .contact-big span{display:block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.3);}
@@ -112,7 +101,6 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#upload">Deploy</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -199,42 +187,6 @@
       <div class="card-tags"><span>TBA</span></div>
     </div>
 
-  </div>
-</section>
-
-<section id="upload">
-  <p class="section-label reveal">Deploy Guide</p>
-  <h2 class="section-title reveal">HOW TO ADD<br/>A PROJECT</h2>
-  <p class="upload-intro reveal">Built something new? Here's exactly how to upload it to GitHub and update this site.</p>
-  <div class="steps reveal">
-    <div class="step">
-      <div class="step-num">01</div>
-      <div class="step-content">
-        <h3>Create a New Repo</h3>
-        <p>Go to <strong>github.com/BinaryAbyssStudios</strong> → New Repository. Name it after your tool (e.g. <code>quickfix</code>). Add a README describing what it does.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <div class="step-content">
-        <h3>Push Your Code</h3>
-        <p>In your project folder: <code>git init</code> → <code>git add .</code> → <code>git commit -m "init"</code> → <code>git remote add origin YOUR_REPO_URL</code> → <code>git push -u origin main</code></p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <div class="step-content">
-        <h3>Update This Site</h3>
-        <p>Open <code>index.html</code> in your <code>BinaryAbyssStudios.github.io</code> repo. Copy the QuickFix <code>.project-card</code> block, paste it, update the number, title, description, tags, and GitHub link.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <div class="step-content">
-        <h3>Push the Site Update</h3>
-        <p><code>git add .</code> → <code>git commit -m "add project: your-tool-name"</code> → <code>git push</code>. Site updates live within 60 seconds.</p>
-      </div>
-    </div>
   </div>
 </section>
 
