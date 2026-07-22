@@ -6,6 +6,7 @@
 - useful Tools for everyday Task.
 and more.
 
+Discord Server: **https://discord.com/invite/28a7j7PgCR**
 
 
 Current Projects:
